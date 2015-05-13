@@ -1,6 +1,6 @@
 # Resin
 
-*A very visous liquid, will make your Plug-based application sluggish.*
+*A very viscous liquid, will make your Plug-based application sluggish.*
 
 Resin is a plug that will add a configurable delay to every request
 that's passing through it, unless run in production.
