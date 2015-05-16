@@ -32,6 +32,7 @@ defmodule Resin.Mixfile do
   defp deps do
     [{:plug, "> 0.8.0"},
      {:timex, "~> 0.13.0", only: :test},
+     {:ex_doc, "~> 0.6.1", only: :dev},
      {:eh, "~> 0.2", only: :dev}]
   end
 end
