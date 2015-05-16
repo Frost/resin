@@ -5,25 +5,30 @@ defmodule Resin.Mixfile do
     [app: :resin,
       version: "0.1.0",
       elixir: "~> 1.0",
+      description: description,
+      package: package,
       deps: deps]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type `mix help compile.app` for more information
   def application do
     [applications: [:logger, :plug]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  # {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  # {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type `mix help deps` for more examples and options
+  defp description do
+    """
+    Pour resin in your plug pipeline to add (configurable) enterpriseyness!
+    """
+  end
+
+  defp package do
+    [ files: ~w[ lib README.md mix.exs LICENSE ],
+      contributors: ["Martin Frost"],
+      licenses: ["The MIT License (MIT)"],
+      links: %{
+        "GitHub" => "https://github.com/Frost/resin",
+        "Docs" => "http://hexdocs.pm/resin/" } ]
+  end
+
   defp deps do
     [{:plug, "> 0.8.0"},
      {:timex, "~> 0.13.0", only: :test},
