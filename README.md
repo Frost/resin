@@ -17,8 +17,7 @@ Given the example in [SimpleApp](examples/simple_app/lib/simple_app.ex):
 defmodule SimpleApp do
   use Plug.Router
 
-  require Resin
-  Resin.act_enterprisey enterpriseyness: 1_000
+  use Resin, enterpriseyness: 1_000
 
   plug :match
   plug :dispatch
@@ -53,7 +52,7 @@ production performance?**
 Just pour some `resin` into its `Plug.Router` and it will be noticably
 slower!
 
-    Resin.act_enterprisey
+    use Resin
 
 **Worried that you will forget to clear out the resin before you ship to
 production?**

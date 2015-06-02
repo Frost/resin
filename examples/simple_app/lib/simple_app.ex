@@ -1,8 +1,7 @@
 defmodule SimpleApp do
   use Plug.Router
 
-  require Resin
-  Resin.act_enterprisey enterpriseyness: 1_000
+  use Resin, enterpriseyness: 1_000
 
   plug :match
   plug :dispatch
