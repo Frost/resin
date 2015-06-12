@@ -43,16 +43,33 @@ end
 ```
 
 Then just run `SimpleApp.start` in your `iex` and start cURLing
-localhost:4000/hello and feel the enterpriseyness.
+localhost:4000/hello and feel the enterpriseyness:
+
+    $ time curl localhost:4000
+    nope
+    curl localhost:4000  0.01s user 0.01s system 1% cpu 1.057 total
+
 
 **Are your project managers complaining that your Elixir web application
 is unrealistically fast, and that your demos does not reflect actual
 production performance?**
 
 Just pour some `resin` into its `Plug.Router` and it will be noticably
-slower!
+~~slower~~ more enterprisey!
 
     use Resin
+
+**Did your management start believing you are faking this delay because
+all requests take exactly the same amount of time to complete?**
+
+Use a range for the `enterpriseyness` option, to make the
+enterpriseyness level differ between requests, making the "performance
+forecast" (thanks for that term, @DevL).
+
+    use Resin, enterpriseyness: 1_000 .. 3_000
+
+This will make add a random number between 1000 and 3000 milliseconds of
+enterpriseyness.
 
 **Worried that you will forget to clear out the resin before you ship to
 production?**
@@ -79,3 +96,4 @@ already an existing thing for Rails, but it would also be too obvious.
 as a plug?**
 
 Yes. Cred goes out to [@airblade](https://github.com/airblade) for inspiration.
+

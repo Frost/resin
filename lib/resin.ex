@@ -11,20 +11,32 @@ defmodule Resin do
 
       use Resin, enterpriseyness: 4711
 
+  It can also be configured with a range of integers, to allow some
+  variation in how long the delay will be:
+
+      use Resin, enterpriseyness: 1_000 .. 3_000
+
   When running with `MIX_ENV=prod`, Resin will do nothing, but instead just edit
   itself out of your AST. See docs on `Resin.__using__/1` for more info on that.
   """
   @behaviour Plug
-  @default_enterpriseyness 3_000
+  @default_options [enterpriseyness: 3_000]
 
   def init(options \\ []) do
-    Keyword.merge([enterpriseyness: @default_enterpriseyness], options)
+    Keyword.merge(@default_options, options)
   end
 
   def call(conn, options) do
-    :timer.sleep(Keyword.get(options, :enterpriseyness))
+    :timer.sleep(enterpriseyness Keyword.get(options, :enterpriseyness))
     conn
   end
+
+  defp enterpriseyness(min .. max) when max < min,
+    do: enterpriseyness(max .. min)
+  defp enterpriseyness(min .. max),
+    do: min + :random.uniform(max - min)
+  defp enterpriseyness(level),
+    do: level
 
   @doc """
   Pour some resin in your plug pipeline, by `use`ing this module.
