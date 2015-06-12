@@ -13,7 +13,7 @@ defmodule SimpleApp do
 
   match _ do
     conn
-    |> send_resp(404, "nope")
+    |> send_resp(404, "nope\n")
   end
 
   def start do
