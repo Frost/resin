@@ -71,6 +71,21 @@ forecast" (thanks for that term, @DevL).
 This will make add a random number between 1000 and 3000 milliseconds of
 enterpriseyness.
 
+**Are you looking for a way to have delays in a specific pattern, like
+having every 4th request take an extra second?**
+
+Set your `enterpriseyness` to an array:
+
+    use Resin, enterpriseyness: [0, 0, 0, 1_000]
+
+It even works with an array of ranges:
+
+    use Resin, enterpriseyness: [100 .. 200, 300 .. 400, 0 .. 1_000]
+
+...or combinations:
+
+    use Resin, enterpriseyness: [0, 0, 100, 100 .. 200]
+
 **Worried that you will forget to clear out the resin before you ship to
 production?**
 

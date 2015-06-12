@@ -16,6 +16,21 @@ defmodule Resin do
 
       use Resin, enterpriseyness: 1_000 .. 3_000
 
+
+  Another option is to configure it with a pattern of delays. This is
+  done by configuring the `enterpriseyness` option with an array.
+
+      use Resin, enterpriseyness: [ 0, 0, 0, 1_000 ]
+
+  Resin will cycle through this array as it processes requests, so the
+  result of the above example is that every 4th request will have an
+  added delay of 1000 ms.
+
+  This can also be done with an array of ranges, or an array that
+  combines integers and ranges, like so:
+
+      use Resin, enterpriseyness: [ 0, 100 .. 200, 1_000, 300 .. 400 ]
+
   When running with `MIX_ENV=prod`, Resin will do nothing, but instead just edit
   itself out of your AST. See docs on `Resin.__using__/1` for more info on that.
   """
@@ -23,11 +38,18 @@ defmodule Resin do
   @default_options [enterpriseyness: 3_000]
 
   def init(options \\ []) do
-    Keyword.merge(@default_options, options)
+    enterpriseyness = @default_options
+                      |> Keyword.merge(options)
+                      |> Keyword.get(:enterpriseyness)
+                      |> List.wrap
+                      
+    PerformanceForecast.init(enterpriseyness)
   end
 
-  def call(conn, options) do
-    :timer.sleep(enterpriseyness Keyword.get(options, :enterpriseyness))
+  def call(conn, _options) do
+    PerformanceForecast.pop
+    |> enterpriseyness
+    |> :timer.sleep
     conn
   end
 
