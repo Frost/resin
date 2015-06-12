@@ -43,11 +43,13 @@ defmodule Resin do
                       |> Keyword.get(:enterpriseyness)
                       |> List.wrap
                       
-    PerformanceForecast.init(enterpriseyness)
+    {:ok, agent} = PerformanceForecast.init(enterpriseyness)
+    [forecast: agent]
   end
 
-  def call(conn, _options) do
-    PerformanceForecast.pop
+  def call(conn, options) do
+    agent = Keyword.get(options, :forecast)
+    PerformanceForecast.pop(agent)
     |> enterpriseyness
     |> :timer.sleep
     conn

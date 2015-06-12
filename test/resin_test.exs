@@ -4,7 +4,7 @@ defmodule ResinTest do
 
   defp clock_resin(options) do
     :timer.tc(Resin, :call, [conn(:get, "/"), options])
-    |> (fn ({time, _value}) -> time / 1000 end).()
+    |> (fn {time, _value} -> time / 1000 end).()
   end
 
   test "it is enterprisey" do
@@ -21,7 +21,7 @@ defmodule ResinTest do
       clock_resin(Resin.init(enterpriseyness: 100 .. 200))
     end
 
-    {faster, slower} = Enum.partition(results, fn (x) -> x < 150 end)
+    {faster, slower} = Enum.partition(results, fn x -> x < 150 end)
     
     assert Enum.count(faster) >= 1
     assert Enum.count(slower) >= 1
@@ -32,16 +32,16 @@ defmodule ResinTest do
       clock_resin(Resin.init(enterpriseyness: 200 .. 100))
     end
 
-    {faster, slower} = Enum.partition(results, fn (x) -> x < 150 end)
+    {faster, slower} = Enum.partition(results, fn x -> x < 150 end)
     
     assert Enum.count(faster) >= 1
     assert Enum.count(slower) >= 1
   end
 
   test "it accepts an enterpriseyness pattern array" do
-    options = [enterpriseyness: [1_000, 0]]
+    options = Resin.init([enterpriseyness: [1_000, 0]])
     results = for _ <- 1..4 do
-      clock_resin(Resin.init(options))
+      clock_resin(options)
     end
 
     assert Enum.at(results, 0) > 1_000
@@ -51,9 +51,9 @@ defmodule ResinTest do
   end
 
   test "it accepts an enterpriseyness pattern array of ranges" do
-    options = [enterpriseyness: [100 .. 200, 300 .. 400]]
+    options = Resin.init([enterpriseyness: [100 .. 200, 300 .. 400]])
     results = for _ <- 1..4 do
-      clock_resin(Resin.init(options))
+      clock_resin(options)
     end
 
     assert Enum.at(results, 0) in 100 .. 200
@@ -63,14 +63,25 @@ defmodule ResinTest do
   end
 
   test "it accepts combined enterpriseyness pattern array" do
-    options = [enterpriseyness: [0, 100 .. 200, 1_000, 300 .. 400]]
+    options = Resin.init([enterpriseyness: [0, 100 .. 200, 1_000, 300 .. 400]])
     results = for _ <- 1..4 do
-      clock_resin(Resin.init(options))
+      clock_resin(options)
     end
 
     assert Enum.at(results, 0) < 100
     assert Enum.at(results, 1) in 100 .. 200
     assert Enum.at(results, 2) > 1_000
     assert Enum.at(results, 3) in 300 .. 400
+  end
+
+  test "it can handle multple instances" do
+    [ {Resin.init([enterpriseyness: 100]), 100 .. 200},
+      {Resin.init([enterpriseyness: 200]), 200 .. 300}]
+    |> Stream.cycle
+    |> Enum.take(6)
+    |> Enum.map(fn {options, range} -> {clock_resin(options), range} end)
+    |> Enum.map(fn {result, expected_range} ->
+      assert result in expected_range
+    end)
   end
 end
