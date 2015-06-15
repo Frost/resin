@@ -5,7 +5,6 @@ defmodule PerformanceForecast do
 
   def pop(agent) do
     Agent.get_and_update(agent, fn([next | tail]) ->
-      new_state = Enum.concat(tail, [next])
       {next, Enum.concat(tail, [next])}
     end)
   end

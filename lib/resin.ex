@@ -16,7 +16,6 @@ defmodule Resin do
 
       use Resin, enterpriseyness: 1_000 .. 3_000
 
-
   Another option is to configure it with a pattern of delays. This is
   done by configuring the `enterpriseyness` option with an array.
 
