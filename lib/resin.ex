@@ -37,12 +37,13 @@ defmodule Resin do
   @default_options [enterpriseyness: 3_000]
 
   def init(options \\ []) do
-    enterpriseyness = @default_options
-                      |> Keyword.merge(options)
-                      |> Keyword.get(:enterpriseyness)
-                      |> List.wrap
-                      
-    {:ok, agent} = PerformanceForecast.init(enterpriseyness)
+    forecast_level =
+      @default_options
+      |> Keyword.merge(options)
+      |> Keyword.get(:enterpriseyness)
+      |> List.wrap
+
+    {:ok, agent} = PerformanceForecast.init(forecast_level)
     [forecast: agent]
   end
 
