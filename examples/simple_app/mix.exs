@@ -27,7 +27,7 @@ defmodule SimpleApp.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:plug, "> 0.8.0"},
+    [{:plug, "~> 1.0"},
      {:cowboy, "~> 1.0.0"},
      {:resin, path: "../.."}]
   end
