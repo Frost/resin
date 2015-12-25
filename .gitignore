@@ -4,3 +4,5 @@ erl_crash.dump
 *.ez
 /resin
 docs
+/cover/*
+/doc/*
