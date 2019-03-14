@@ -49,7 +49,8 @@ defmodule Resin do
 
   def call(conn, options) do
     agent = Keyword.get(options, :forecast)
-    PerformanceForecast.pop(agent)
+    agent
+    |> PerformanceForecast.pop()
     |> enterpriseyness()
     |> :timer.sleep()
     conn

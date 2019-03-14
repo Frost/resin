@@ -3,7 +3,8 @@ defmodule ResinTest do
   use Plug.Test
 
   defp clock_resin(options) do
-    :timer.tc(Resin, :call, [conn(:get, "/"), options])
+    Resin
+    |> :timer.tc(:call, [conn(:get, "/"), options])
     |> elem(0)
   end
 
