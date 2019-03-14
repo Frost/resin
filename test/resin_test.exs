@@ -23,7 +23,7 @@ defmodule ResinTest do
         clock_resin(Resin.init(enterpriseyness: 100..200))
       end
 
-    {faster, slower} = Enum.partition(results, fn x -> x < 150_000 end)
+    {faster, slower} = Enum.split_with(results, fn x -> x < 150_000 end)
 
     assert Enum.count(faster) >= 1
     assert Enum.count(slower) >= 1
@@ -35,7 +35,7 @@ defmodule ResinTest do
         clock_resin(Resin.init(enterpriseyness: 200..100))
       end
 
-    {faster, slower} = Enum.partition(results, fn x -> x < 150_000 end)
+    {faster, slower} = Enum.split_with(results, fn x -> x < 150_000 end)
 
     assert Enum.count(faster) >= 1
     assert Enum.count(slower) >= 1
