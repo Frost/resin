@@ -1,0 +1,24 @@
+language: elixir
+elixir:
+  - 1.7
+  - 1.8
+otp_release:
+  - 19.3
+  - 20.3
+  - 21.0
+
+matrix:
+  exclude:
+    - elixir: 1.8
+      otp_release: 19.3
+
+jobs:
+  include:
+    - stage: check
+      script: mix format --check-formatted
+      name: Check formatting
+    - script: mix credo --strict
+      name: Credo
+    - stage: test
+      script: mix test
+      name: Run tests
