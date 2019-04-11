@@ -59,7 +59,7 @@ defmodule Resin do
   defp enterpriseyness(min .. max) when max < min,
     do: enterpriseyness(max .. min)
   defp enterpriseyness(min .. max),
-    do: min + :random.uniform(max - min)
+    do: min + :rand.uniform(max - min)
   defp enterpriseyness(level),
     do: level
 
